@@ -1,0 +1,27 @@
+# .gitlab-ci.yml
+# This file defines the CI/CD pipeline for the Regulatory Frontend project.
+
+
+variables:
+  DEPLOY_ENV: "staging"
+
+
+# Always include both templates; inputs can use variables with default fallback
+include:
+  - local: '.gitlab/templates/staging-template.yml'
+    inputs:
+      job_suffix: "staging"
+      env_name: "staging"
+      ssh_user: "$SSH_USER"
+      ssh_host: "$SSH_HOST"
+      ssh_port: $SSH_PORT
+      environment_name: "staging"
+      environment_url: "https://regulatory.nuvoai.io"
+
+  # - local: '.gitlab/templates/aws-template.yml'
+  #   inputs:
+  #     job_suffix: 'deploy-$DEPLOY_ENV'
+  #     env_name: "$DEPLOY_ENV"
+  #     environment_name: "$DEPLOY_ENV"
+  #     environment_url: "$ENV_URL"
+

@@ -1,0 +1,41 @@
+# .gitlab/deploy.yml
+
+deploy-to-dmz-job:
+  stage: deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache openssh-client bash gzip docker
+    - echo "🔐 Setting up SSH keys for deployment..."
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - chmod 600 ~/.ssh/known_hosts
+    - chmod +x .gitlab/scripts/deploy_to_dmz.sh
+  script:
+    - echo "🚀 Running deployment script..."
+    - .gitlab/scripts/deploy_to_dmz.sh
+  environment:
+    name: staging
+    url: https://regulatory.nuvoai.io
+  only:
+    - main
+  when: manual
+  dependencies:
+    - build-job
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 day
+  allow_failure: false
+  tags:
+    - docker
+  timeout: 30 minutes
+  retry:
+    max: 2
+    when: always
+  cache:
+    key: deploy-cache
+    paths:
+      - .docker/cache
+    policy: pull-push

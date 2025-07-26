@@ -1,0 +1,6 @@
+# File: .gitlab/staging/pipeline.yml
+
+include:
+  - local: '.gitlab/staging/build.yml'
+  - local: '.gitlab/staging/test.yml'
+  # - local: '.gitlab/staging/deploy.yml'

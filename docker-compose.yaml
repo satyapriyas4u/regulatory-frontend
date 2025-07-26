@@ -1,0 +1,10 @@
+# File: docker-compose.yaml
+services:
+  react-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: regulatory-frontend
+    ports:
+      - "8888:80"   # Host port 8888 maps to container port 80 (served by Nginx)
+    restart: unless-stopped

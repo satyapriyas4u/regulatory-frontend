@@ -1,0 +1,15 @@
+# .gitlab/staging/build.yml
+
+build-job:
+  stage: build
+  image: node:22
+  script:
+    - echo "📦 Installing dependencies..."
+    - npm install
+    - echo "⚙️ Building project..."
+    - npm run build
+    - echo "✅ Build completed successfully"
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 day
