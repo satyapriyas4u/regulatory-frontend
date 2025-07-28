@@ -1,6 +1,7 @@
 # File: docker-compose.yaml
 services:
   react-frontend:
+    image: regulatory-frontend
     build:
       context: .
       dockerfile: Dockerfile

@@ -8,7 +8,7 @@ SSH_TARGET="$SSH_USER@$SSH_HOST"
 REMOTE_DIR="/home/$SSH_USER/regulatory-deploy"
 IMAGE_NAME="regulatory-frontend"
 TARBALL="regulatory-frontend.tar.gz"
-COMPOSE_FILE="docker-compose.yml"
+COMPOSE_FILE="docker-compose.yaml"
 
 # === LOCAL CLEANUP (if rerun) ===
 echo "🧹 Cleaning up local Docker artifacts (if any)..."
@@ -50,6 +50,7 @@ EOF
 
 # === TRANSFER FILES ===
 echo "📁 [4/6] Transferring files to DMZ..."
+ls -la "$TARBALL" "$COMPOSE_FILE"
 scp -P "$SSH_PORT" "$TARBALL" "$COMPOSE_FILE" "$SSH_TARGET:$REMOTE_DIR/"
 
 # === REMOTE DEPLOYMENT ===
